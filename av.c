@@ -1,19 +1,11 @@
 #include <stdio.h>
-/**
- * main - prints all args without ac
- * @ac: numberof arg
- * @av: array of strings
- *
- * Return: 0 if success
- */
 
-int main(int ac, char **av)
+int main(int argc, char *argv[])
 {
-	int it;
-	for (it = 0; it < ac; it++)
+	int i;
+	for (i = 0; argv[i] != '\0'; i++)
 	{
-		(void) ac;
-		printf("%s\n", av[i]);
+		printf("%s\n", argv[i]);
 	}
 	return (0);
 }

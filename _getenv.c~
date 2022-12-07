@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+/**
+ * _getenv - gets an environment variable
+ * @name: name of the variable
+ * Return: pointer to the value of the variable
+ */
+char *_getenv(const char *name)
+{
+	int i = 0, j = 0, k = 0;
+	char *value;
+
+	while (environ[i] != NULL)
+	{
+		while (environ[i][j] != '=')
+			j++;
+		if (_strncmp(environ[i], name, j) == 0)
+		{
+			value = malloc(sizeof(char) * (_strlen(environ[i]) - j));
+			if (value == NULL)
+				return (NULL);
+			j++;
+			while (environ[i][j] != '\0')
+			{
+				value[k] = environ[i][j];
+				j++;
+				k++;
+			}
+			value[k] = '\0';
+			return (value);
+		}
+		i++;
+		j = 0;
+	}
+	return (NULL);
+}
