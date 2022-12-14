@@ -1,59 +1,61 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 #include <string.h>
+#include <unistd.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <sys/wait.h>
+#include <fcntl.h>
+#include <dirent.h>
+#include <signal.h>
+#include <stdlib.h>
 
-int main(int argc, char *argv[])
+/** Define a constant for the maximum length of a command*/
+#define MAX_COMMAND_LENGTH 100
+
+int main() 
 {
-	char *args[100];
-	char *token;
-	char *input;
-	char *delim = " ";
-	int i = 0;
-	int status;
-	pid_t pid;
+    /** Declare the command variable at the beginning of the function*/
+    char command[MAX_COMMAND_LENGTH];
+	/** declating the length and result variable outside of the while lopp*/
+    int length = 0;
+    int result = 0;
 
-	while (1)
+    /**
+     * Loop until the user enters the "exit" command.
+     */
+    while (1) 
+    {
+        /** Display the prompt and read the user's input*/
+        printf("($) ");
+        if (fgets(command, MAX_COMMAND_LENGTH, stdin) == NULL) 
 	{
-		printf("$ ");
-		input = malloc(sizeof(char) * 1024);
-		if (input == NULL)
-		{
-			perror("Error: malloc failed\n");
-			exit(1);
-		}
-		if (fgets(input, 1024, stdin) == NULL)
-		{
-			perror("Error: fgets failed\n");
-			exit(1);
-		}
-		token = strtok(input, delim);
-		while (token != NULL)
-		{
-			args[i] = token;
-			token = strtok(NULL, delim);
-			i++;
-		}
-		args[i] = NULL;
-		pid = fork();
-		if (pid == 0)
-		{
-			if (execve(args[0], args, NULL) == -1)
-			{
-				perror("Error: execve failed\n");
-				exit(1);
-			}
-		}
-		else if (pid < 0)
-		{
-			perror("Error: fork failed\n");
-			exit(1);
-		}
-		else
-		{
-			wait(&status);
-		}
-	}
+            /** If end of file is reached (Ctrl+D), exit the program*/
+            break;
+        }
+
+        /** Remove the trailing newline character from the command*/
+       	length = strlen(command);
+        if (length > 0 && command[length - 1] == '\n') 
+	{
+            command[length - 1] = 0;
+        }
+
+        /** If the user entered the "exit" command, exit the program*/
+        if (strcmp(command, "exit") == 0) 
+	{
+            break;
+        }
+
+        /** Try to execute the command using the system() function*/
+       	result = system(command);
+
+        /** If the command was not found, print an error message*/
+        if (result == 127) 
+	{
+            fprintf(stderr, "simple_shell: command not found: %s\n", command);
+        }
+    }
+
+    return (0);
 }
+
