@@ -13,7 +13,7 @@
  */
 /** Define a constant for the maximum length of a command*/
 #define MAX_COMMAND_LENGTH 100
-int main()
+int main(void)
 {
 	char command[MAX_COMMAND_LENGTH]; /** declaring command var name*/
 	int length = 0;
@@ -21,7 +21,9 @@ int main()
 
 	while (1) /** Loop until the user enters the "exit" command.*/
 	{
+		if (isatty(fileno(stdin)))
 		printf("($) ");
+
 		if (fgets(command, MAX_COMMAND_LENGTH, stdin) == NULL)
 		{
 			break; /** If end of file is reached (Ctrl+D), exit the program*/
