@@ -13,7 +13,7 @@
  */
 /** Define a constant for the maximum length of a command*/
 #define MAX_COMMAND_LENGTH 100
-int main(void)
+int main()
 {
 	char command[MAX_COMMAND_LENGTH]; /** declaring command var name*/
 	int length = 0;
@@ -35,6 +35,8 @@ int main(void)
 			{
 				break;
 			}
+
+			result = system(command);
 			if (result == 127) /**command not found print error*/
 			{
 				fprintf(stderr, "simple_shell: command not found: %s\n", command);
