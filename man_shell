@@ -1,0 +1,31 @@
+.Dd 04/17/2023
+.\" Manpage for simple_shell
+.SH NAME
+simple_shell
+.SH SYNOPSIS
+./simple_shell
+.SH DESCRIPTION
+The simple_shell command is a simple shell program that allows you to execute basic shell commands and run scripts. It was created as a learning exercise and is not intended to be used in production environments.
+
+Once you have started the simple shell program, you can execute basic shell commands and run scripts by typing them into the terminal and pressing enter. Some examples of valid commands are:
+
+bash
+Copy code
+ls -l
+cd /path/to/directory
+./script.sh
+You can also use the up and down arrow keys to scroll through previously entered commands, and the tab key to autocomplete file and directory names.
+
+The simple shell program has some limitations and may not work for all use cases. Some known limitations are:
+
+It does not support advanced features such as piping, redirection, and background processes.
+It may not work correctly with certain command line arguments or special characters.
+It has not been extensively tested and may contain bugs or errors.
+.SH EXIT STATUS
+The simple_shell command returns the following exit status codes:
+
+0: Successful completion
+1: General error
+2: Invalid command or syntax
+.SH AUTHORS
+Authors: Ashly Riggs and Joshua Riggs
