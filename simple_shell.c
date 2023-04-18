@@ -3,42 +3,52 @@
 #include <unistd.h>
 #include <string.h>
 #include <sys/wait.h>
+/**
+ * main - starts simple shell - entry point
+ *
+ * Return: Always 0
+ */
+#define MAX_COMMAND_LENGTH 100
 
-int main(int argc, char **argv, char **envp) {
-    char *line = NULL;
-    size_t line_buf_size = 0;
-    ssize_t line_size;
-    int status;
+int main(void)
+{
+	char command[MAX_COMMAND_LENGTH];
+	pid_t pid;
+	int status;
+	int input_is_terminal = isatty(STDIN_FILENO);
 
-    while (isatty(fileno(stdin))) {
-        printf("shell$ ");
-        fflush(stdout);
+	while (1)
+	{
+		if (input_is_terminal)
+		{
+			printf("$ ");
+		}
 
-        line_size = getline(&line, &line_buf_size, stdin);
+		fgets(command, MAX_COMMAND_LENGTH, stdin);
 
-        if (line_size == -1) {
-            break;
-        }
+		if (strcmp(command, "exit") == 0)
+		{
+			return (0);
+		}
 
-        line[line_size - 1] = '\0';
+		pid = fork();
 
-        char *args[2] = {line, NULL};
+		if (pid == -1)
+		{
+			perror("fork");
+			exit(EXIT_FAILURE);
+		}
 
-        pid_t pid = fork();
-        if (pid == -1) {
-            perror("fork");
-            exit(EXIT_FAILURE);
-        } else if (pid == 0) {
-            // child process
-            execvp(args[0], args);
-            perror("execvp");
-            _exit(EXIT_FAILURE);
-        } else {
-            // parent process
-            waitpid(pid, &status, 0);
-        }
-    }
-
-    free(line);
-    exit(EXIT_SUCCESS);
+		if (pid == 0)
+		{
+			execlp(command, command, NULL);
+			perror("execlp");
+			_exit(EXIT_FAILURE);
+		}
+		else
+		{
+			waitpid(pid, &status, 0);
+		}
+	}
+	return (0);
 }
