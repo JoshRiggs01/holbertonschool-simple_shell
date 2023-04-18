@@ -3,10 +3,14 @@
 #include <unistd.h>
 #include <string.h>
 #include <sys/wait.h>
-
+/**
+ * main - starts simple shell - entry point
+ *
+ * Return: Always 0
+ */
 #define MAX_COMMAND_LENGTH 100
 
-int main()
+int main(void)
 {
 	char command[MAX_COMMAND_LENGTH];
 	pid_t pid;
