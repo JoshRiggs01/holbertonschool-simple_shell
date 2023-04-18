@@ -1,13 +1,4 @@
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/wait.h>
-#include <fcntl.h>
-#include <dirent.h>
-#include <signal.h>
-#include <stdlib.h>
+#include "main.h"
 /**
  * main - entry point
  */
@@ -43,5 +34,6 @@ int main(void)
 				fprintf(stderr, "simple_shell: command not found: %s\n", command);
 			}
 	}
+	exit(EXIT_SUCCESS);
 	return (0);
 }
