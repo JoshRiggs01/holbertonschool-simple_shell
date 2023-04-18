@@ -18,6 +18,7 @@ int main(void)
 		if (fgets(command, MAX_COMMAND_LENGTH, stdin) == NULL)
 		{
 			break; /** If end of file is reached (Ctrl+D), exit the program*/
+			exit(EXIT_SUCCESS);
 		}
 		length = strlen(command); /** Remove the trailing \n frm cmd*/
 		if (length > 0 && command[length - 1] == '\n')
@@ -34,6 +35,5 @@ int main(void)
 				fprintf(stderr, "simple_shell: command not found: %s\n", command);
 			}
 	}
-	exit(EXIT_SUCCESS);
 	return (0);
 }
