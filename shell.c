@@ -9,7 +9,6 @@ int main(void)
 	char command[MAX_COMMAND_LENGTH]; /** declaring command var name*/
 	int length = 0;
 	int result = 0; /** declating the length and result variable outside lopp*/
-	char buf[1024];
 
 	while (1) /** Loop until the user enters the "exit" command.*/
 	{
@@ -36,26 +35,6 @@ int main(void)
 			if (result == 127) /**command not found print error*/
 			{
 				fprintf(stderr, "simple_shell: command not found: %s\n", command);
-			}
-			else if (result == 0)
-			{
-				FILE *fp = popen(command, "r");
-				if (fp == NULL)
-				{
-					perror("popen");
-					exit(EXIT_FAILURE);
-				}
-				while (fgets(buf, sizeof(buf), fp) != NULL)
-			{
-				char *token = strtok(buf, "\n");
-				while (token != NULL)
-				{
-					write(STDOUT_FILENO, token, strlen(token));
-					write(STDOUT_FILENO, "\n", 1);
-					token = strtok(NULL, "\n");
-				}
-			}
-			pclose(fp);
 			}
 	}
 	return (0);
