@@ -1,4 +1,13 @@
-#include "main.h"
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
+#include <fcntl.h>
+#include <dirent.h>
+#include <signal.h>
+#include <stdlib.h>
 /**
  * main - entry point
  */
@@ -13,14 +22,11 @@ int main(void)
 	while (1) /** Loop until the user enters the "exit" command.*/
 	{
 		if (isatty(fileno(stdin)))
-		{
-			write(STDOUT_FILENO, "($) ", 4);
-		}
+		printf("($) ");
 
 		if (fgets(command, MAX_COMMAND_LENGTH, stdin) == NULL)
 		{
 			break; /** If end of file is reached (Ctrl+D), exit the program*/
-			exit(EXIT_SUCCESS);
 		}
 		length = strlen(command); /** Remove the trailing \n frm cmd*/
 		if (length > 0 && command[length - 1] == '\n')
