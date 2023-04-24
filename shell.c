@@ -22,7 +22,7 @@ int main(void)
 	while (1) /** Loop until the user enters the "exit" command.*/
 	{
 		if (isatty(fileno(stdin)))
-		printf("($) ");
+		write(STDOUT_FILENO, "($) ", 4);
 
 		if (fgets(command, MAX_COMMAND_LENGTH, stdin) == NULL)
 		{
@@ -40,7 +40,9 @@ int main(void)
 			result = system(command);
 			if (result == 127) /**command not found print error*/
 			{
-				fprintf(stderr, "simple_shell: command not found: %s\n", command);
+				write(STDERR_FILENO, "simple_shell: command not found: ", 33);
+				write(STDERR_FILENO, command, strlen(command));
+				write(STDERR_FILENO, "\n", 1);
 			}
 	}
 	return (0);
